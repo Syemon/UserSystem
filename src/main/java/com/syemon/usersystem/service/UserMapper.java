@@ -2,6 +2,7 @@ package com.syemon.usersystem.service;
 
 import com.syemon.usersystem.domain.User;
 import com.syemon.usersystem.domain.UserId;
+import com.syemon.usersystem.domain.UserLogin;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,7 +14,7 @@ class UserMapper {
     User githubUserToUser(GithubUser githubUser) {
         return User.builder()
                 .id(new UserId(githubUser.id()))
-                .login(githubUser.login())
+                .login(new UserLogin(githubUser.login()))
                 .type(githubUser.type())
                 .avatarUrl(githubUser.avatar_url())
                 .followersCount(githubUser.followers())

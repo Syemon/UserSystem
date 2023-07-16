@@ -2,6 +2,7 @@ package com.syemon.usersystem.service;
 
 import com.syemon.usersystem.domain.User;
 import com.syemon.usersystem.domain.UserDomainException;
+import com.syemon.usersystem.domain.UserLogin;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +23,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class GithubUserQueryRepositoryTest {
 
-    public static final String USER_NAME = "user";
+    public static final UserLogin USER_LOGIN = new UserLogin("user");
     @InjectMocks
     private GithubUserQueryRepository sut;
 
@@ -35,20 +36,20 @@ class GithubUserQueryRepositoryTest {
     @Test
     void getUser_shouldReturnEmptyOptional_whenUserWasNotFound() {
         //given
-        when(githubClient.getUser(USER_NAME)).thenReturn(Optional.empty());
+        when(githubClient.getUser(USER_LOGIN)).thenReturn(Optional.empty());
 
         //when/then
-        assertThat(sut.getUser(USER_NAME)).isEmpty();
+        assertThat(sut.getUser(USER_LOGIN)).isEmpty();
     }
 
     @ParameterizedTest
     @MethodSource("githubClientExceptionProvider")
     void getUser_shouldThrowException_whenReceivedUnexpectedClientError(Exception exception) {
         //given
-        when(githubClient.getUser(USER_NAME)).thenThrow(exception);
+        when(githubClient.getUser(USER_LOGIN)).thenThrow(exception);
 
         //when/then
-        assertThatThrownBy(() -> sut.getUser(USER_NAME))
+        assertThatThrownBy(() -> sut.getUser(USER_LOGIN))
                 .isInstanceOf(UserDomainException.class);
     }
 
@@ -64,11 +65,11 @@ class GithubUserQueryRepositoryTest {
         //given
         User expectedUser = User.builder().build();
 
-        when(githubClient.getUser(USER_NAME)).thenReturn(Optional.of(ServiceTestUtil.GITHUB_USER));
+        when(githubClient.getUser(USER_LOGIN)).thenReturn(Optional.of(ServiceTestUtil.GITHUB_USER));
         when(userMapper.githubUserToUser(ServiceTestUtil.GITHUB_USER)).thenReturn(expectedUser);
 
         //when
-        Optional<User> result = sut.getUser(USER_NAME);
+        Optional<User> result = sut.getUser(USER_LOGIN);
 
         //then
         Assertions.assertThat(result).isPresent();

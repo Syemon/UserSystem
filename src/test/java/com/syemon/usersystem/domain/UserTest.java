@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class UserTest {
     private final static UserId USER_ID = new UserId(1L);
-    private final static String LOGIN = "LOGIN";
+    private final static UserLogin LOGIN = new UserLogin("LOGIN");
     private final static String TYPE = "TYPE";
     private final static String AVATAR_URL = "https://example.com/avatar.png";
     private final static Long FOLLOWERS_COUNT = 11L;

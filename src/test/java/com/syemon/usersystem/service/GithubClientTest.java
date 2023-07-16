@@ -1,6 +1,7 @@
 package com.syemon.usersystem.service;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
+import com.syemon.usersystem.domain.UserLogin;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class GithubClientTest {
 
-    public static final String SUCCESS_CASE = "Octocat";
-    public static final String NOT_FOUND_CASE = "notFound";
-    public static final String CORRUPTED_RESPONSE_CASE = "corruptedResponse";
-    public static final String SERVICE_UNAVAILABLE_CASE = "serviceUnavailable";
+    public static final UserLogin SUCCESS_CASE = new UserLogin("Octocat");
+    public static final UserLogin NOT_FOUND_CASE = new UserLogin("notFound");
+    public static final UserLogin CORRUPTED_RESPONSE_CASE = new UserLogin("corruptedResponse");
+    public static final UserLogin SERVICE_UNAVAILABLE_CASE = new UserLogin("serviceUnavailable");
+
     @Autowired
     private GithubClient sut;
 

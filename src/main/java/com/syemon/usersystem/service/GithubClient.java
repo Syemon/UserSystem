@@ -1,5 +1,6 @@
 package com.syemon.usersystem.service;
 
+import com.syemon.usersystem.domain.UserLogin;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
@@ -8,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Optional;
 
 @Slf4j
-public class GithubClient {
+class GithubClient {
 
     private final static String USERS_PATH = "/users/";
     private final RestTemplate restTemplate;
@@ -19,14 +20,14 @@ public class GithubClient {
         this.baseUrl = baseUrl;
     }
 
-    public Optional<GithubUser> getUser(String userName) {
-        String url = baseUrl + USERS_PATH + userName;
+    public Optional<GithubUser> getUser(UserLogin login) {
+        String url = baseUrl + USERS_PATH + login.value();
 
         try {
             return Optional.ofNullable(restTemplate.getForEntity(url, GithubUser.class).getBody());
         } catch (HttpClientErrorException e) {
             if (HttpStatus.NOT_FOUND.equals(e.getStatusCode())) {
-                log.info("User {} does not exist in github", userName);
+                log.info("User {} does not exist in github", login);
                 return Optional.empty();
             }
             log.error("Received HttpClientErrorException: {}", e.getMessage(), e);

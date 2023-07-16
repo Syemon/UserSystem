@@ -2,6 +2,7 @@ package com.syemon.usersystem.service;
 
 import com.syemon.usersystem.domain.User;
 import com.syemon.usersystem.domain.UserId;
+import com.syemon.usersystem.domain.UserLogin;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ class UserMapperTest {
 
         //then
         assertThat(result.getId()).isEqualTo(new UserId(583231L));
-        assertThat(result.getLogin()).isEqualTo("octocat");
+        assertThat(result.getLogin()).isEqualTo(new UserLogin("octocat"));
         assertThat(result.getType()).isEqualTo("User");
         assertThat(result.getAvatarUrl()).isEqualTo("https://avatars.githubusercontent.com/u/583231?v=4");
         assertThat(result.getFollowersCount()).isEqualTo(9787L);
