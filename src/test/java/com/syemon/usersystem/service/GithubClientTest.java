@@ -1,7 +1,6 @@
 package com.syemon.usersystem.service;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +8,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
+import java.util.Optional;
+
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class GithubClientTest {
 
+    public static final String SUCCESS_CASE = "Octocat";
+    public static final String NOT_FOUND_CASE = "notFound";
+    public static final String CORRUPTED_RESPONSE_CASE = "corruptedResponse";
+    public static final String SERVICE_UNAVAILABLE_CASE = "serviceUnavailable";
     @Autowired
     private GithubClient sut;
 
@@ -32,9 +37,12 @@ class GithubClientTest {
     @Test
     void getUser() {
         //when
-        GithubUser result = sut.getUser("Octocat");
+        Optional<GithubUser> response = sut.getUser(SUCCESS_CASE);
 
         //then
+        assertThat(response).isPresent();
+        GithubUser result = response.get();
+
         assertThat(result.login()).isEqualTo("octocat");
         assertThat(result.id()).isEqualTo(583231);
         assertThat(result.node_id()).isEqualTo("MDQ6VXNlcjU4MzIzMQ==");
@@ -67,5 +75,28 @@ class GithubClientTest {
         assertThat(result.following()).isEqualTo(9);
         assertThat(result.created_at()).isEqualTo("2011-01-25T18:44:36Z");
         assertThat(result.updated_at()).isEqualTo("2023-06-22T11:15:59Z");
+    }
+
+    @Test
+    void getUser_shouldReturnEmpty_whenReturnedNotFound() {
+        //when
+        Optional<GithubUser> response = sut.getUser(NOT_FOUND_CASE);
+
+        //then
+        assertThat(response).isEmpty();
+    }
+
+    @Test
+    void getUser_shouldThrowException_whenCouldNotProcessResponse() {
+        assertThatThrownBy(() -> sut.getUser(CORRUPTED_RESPONSE_CASE))
+                .isInstanceOf(GithubClientException.class)
+                .hasMessageContaining("Unexpected exception");
+    }
+
+    @Test
+    void getUser_shouldThrowException_whenServiceUnavailable() {
+        assertThatThrownBy(() -> sut.getUser(SERVICE_UNAVAILABLE_CASE))
+                .isInstanceOf(GithubClientException.class)
+                .hasMessageContaining("Unexpected exception");
     }
 }

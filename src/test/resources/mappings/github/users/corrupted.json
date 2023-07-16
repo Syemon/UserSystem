@@ -1,0 +1,10 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/users/corruptedResponse"
+  },
+  "response": {
+    "status": "200",
+    "body": "Not a json"
+  }
+}

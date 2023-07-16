@@ -1,0 +1,12 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/users/serviceUnavailable"
+  },
+  "response": {
+    "status": "503",
+    "headers": {
+      "Content-Type" : "application/json;charset=UTF-8"
+    }
+  }
+}

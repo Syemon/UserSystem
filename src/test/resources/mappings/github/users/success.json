@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "urlPathPattern": "/users/(.*)"
+    "urlPathPattern": "/users/Octocat"
   },
   "response": {
     "status": "200",
