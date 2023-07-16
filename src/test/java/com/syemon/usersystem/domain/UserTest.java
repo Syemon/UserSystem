@@ -25,15 +25,15 @@ class UserTest {
     @Test
     public void initializeUser() {
         //when
-        User user = User.initializeUser(
-                USER_ID,
-                LOGIN,
-                TYPE,
-                AVATAR_URL,
-                FOLLOWERS_COUNT,
-                REPOSITORIES_COUNT,
-                CREATED_AT
-        );
+        User user = User.builder()
+                .id(USER_ID)
+                .login(LOGIN)
+                .type(TYPE)
+                .avatarUrl(AVATAR_URL)
+                .followersCount(FOLLOWERS_COUNT)
+                .repositoriesCount(REPOSITORIES_COUNT)
+                .createdAt(CREATED_AT)
+                .build();
 
         //then
         assertThat(user.getId()).isEqualTo(USER_ID);
@@ -49,15 +49,15 @@ class UserTest {
     @MethodSource("calculateProvider")
     public void calculate(long followersCount, long repositoriesCount, BigDecimal expectedResult) {
         //given
-        User user = User.initializeUser(
-                USER_ID,
-                LOGIN,
-                TYPE,
-                AVATAR_URL,
-                followersCount,
-                repositoriesCount,
-                CREATED_AT
-        );
+        User user = User.builder()
+                .id(USER_ID)
+                .login(LOGIN)
+                .type(TYPE)
+                .avatarUrl(AVATAR_URL)
+                .followersCount(followersCount)
+                .repositoriesCount(repositoriesCount)
+                .createdAt(CREATED_AT)
+                .build();
 
         //when/then
         assertThat(user.calculate()).isEqualTo(Optional.ofNullable(expectedResult));
@@ -78,15 +78,15 @@ class UserTest {
     @MethodSource("calculateNegativeNumbersProvider")
     public void calculate_shouldThrowException_whenSetWithNegativeNumbers(long followersCount, long repositoriesCount) {
         //given
-        User user = User.initializeUser(
-                USER_ID,
-                LOGIN,
-                TYPE,
-                AVATAR_URL,
-                followersCount,
-                repositoriesCount,
-                CREATED_AT
-        );
+        User user = User.builder()
+                .id(USER_ID)
+                .login(LOGIN)
+                .type(TYPE)
+                .avatarUrl(AVATAR_URL)
+                .followersCount(followersCount)
+                .repositoriesCount(repositoriesCount)
+                .createdAt(CREATED_AT)
+                .build();
 
         //when/then
         Assertions.assertThatThrownBy(user::calculate)
@@ -96,9 +96,9 @@ class UserTest {
 
     public static Stream<Arguments> calculateNegativeNumbersProvider() {
         return Stream.of(
-                Arguments.of(-1L,    2L),
-                Arguments.of(2L,    -1L),
-                Arguments.of(-1L,    -1L)
+                Arguments.of(-1L,   2L),
+                Arguments.of( 2L,   -1L),
+                Arguments.of(-1L,   -1L)
         );
     }
 }

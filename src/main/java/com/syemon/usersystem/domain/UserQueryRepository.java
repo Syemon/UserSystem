@@ -1,6 +1,8 @@
 package com.syemon.usersystem.domain;
 
+import java.util.Optional;
+
 public interface UserQueryRepository {
 
-    User getUser(String userName);
+    Optional<User> getUser(String userName);
 }

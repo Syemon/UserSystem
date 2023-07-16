@@ -1,5 +1,7 @@
 package com.syemon.usersystem.domain;
 
+import lombok.Builder;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -8,10 +10,12 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Slf4j
+@Getter
 public class User {
 
     public static final int CALCULATION_SCALE = 2;
 
+    @Builder
     private User(UserId id, String login, String type, String avatarUrl, long followersCount, long repositoriesCount, LocalDateTime createdAt) {
         this.id = id;
         this.login = login;
@@ -32,43 +36,6 @@ public class User {
     private long repositoriesCount;
     private LocalDateTime createdAt;
     private BigDecimal calculations;
-
-    public static User initializeUser(UserId id, String login, String type, String avatarUrl, long followersCount, long repositoriesCount, LocalDateTime createdAt) {
-        return new User(id, login, type, avatarUrl, followersCount, repositoriesCount, createdAt);
-    }
-
-
-    public UserId getId() {
-        return id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public long getFollowersCount() {
-        return followersCount;
-    }
-
-    public long getRepositoriesCount() {
-        return repositoriesCount;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public BigDecimal getCalculations() {
-        return calculations;
-    }
 
     public Optional<BigDecimal> calculate() {
         if (followersCount == 0) {
