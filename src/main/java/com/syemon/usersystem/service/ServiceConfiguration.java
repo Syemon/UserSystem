@@ -35,7 +35,17 @@ public class ServiceConfiguration {
         return new GithubUserQueryRepository(githubClient, userMapper);
     }
     @Bean
-    public UserApplicationService userApplicationService(RequestValidator requestValidator, UserQueryRepository userQueryRepository) {
-        return new UserApplicationService(requestValidator, userQueryRepository);
+    public UserApplicationService userApplicationService(
+            RequestValidator requestValidator,
+            UserQueryRepository userQueryRepository,
+            RequestLogRepository requestLogRepository,
+            UserMapper userMapper
+    ) {
+        return new UserApplicationService(requestValidator, userQueryRepository, requestLogRepository, userMapper);
+    }
+
+    @Bean
+    public RequestLogRepository requestLogRepository(RequestLogJpaRepository requestLogJpaRepository) {
+        return new PostgresLogRepository(requestLogJpaRepository);
     }
 }

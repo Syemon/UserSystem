@@ -1,6 +1,7 @@
 package com.syemon.usersystem.service;
 
 import com.syemon.usersystem.domain.User;
+import com.syemon.usersystem.domain.UserDomainException;
 import com.syemon.usersystem.domain.UserLogin;
 import com.syemon.usersystem.domain.UserNotFoundException;
 import com.syemon.usersystem.domain.UserQueryRepository;
@@ -16,17 +17,47 @@ public class UserApplicationService {
 
     private final RequestValidator requestValidator;
     private final UserQueryRepository userQueryRepository;
+    private final RequestLogRepository requestLogRepository;
+    private final UserMapper userMapper;
 
     public UserResponse getUser(@Valid UserQuery userQuery) {
         requestValidator.validate(userQuery);
 
         UserLogin userLogin = new UserLogin(userQuery.login());
+
+        logRequest(userLogin);
+
         Optional<User> optionalUser = userQueryRepository.getUser(userLogin);
         if (optionalUser.isEmpty()) {
             log.warn("User with login: '{}' does not exist", userLogin.value());
             throw new UserNotFoundException("Could not find user: " + userLogin.value());
         }
-        return null;
+        User user = optionalUser.get();
+        user.calculate();
+        return userMapper.userToUserResponse(user);
+    }
+
+    private void logRequest(UserLogin userLogin) {
+        try {
+            RequestLog requestLog = getOrCreateRequestLog(userLogin);
+            incrementAndSaveRequestLog(requestLog);
+        } catch (Exception e) {
+            log.error("An error has occurred while saving request log", e);
+            throw new UserDomainException("An error has occurred while saving request log: " + e.getMessage());
+        }
+    }
+
+    private RequestLog getOrCreateRequestLog(UserLogin userLogin) {
+        Optional<RequestLog> requestLog = requestLogRepository.findByLogin(userLogin);
+
+        return requestLog.orElseGet(() -> RequestLog.builder()
+                .login(userLogin.value())
+                .build());
+    }
+
+    private void incrementAndSaveRequestLog(RequestLog requestLog) {
+        requestLog.incrementRequestCount();
+        requestLogRepository.save(requestLog);
     }
 
 }

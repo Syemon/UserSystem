@@ -16,9 +16,10 @@ public class User {
     public static final int CALCULATION_SCALE = 2;
 
     @Builder
-    private User(UserId id, UserLogin login, String type, String avatarUrl, long followersCount, long repositoriesCount, LocalDateTime createdAt) {
+    private User(UserId id, UserLogin login, String name, String type, String avatarUrl, long followersCount, long repositoriesCount, LocalDateTime createdAt) {
         this.id = id;
         this.login = login;
+        this.name = name;
         this.type = type;
         this.avatarUrl = avatarUrl;
         this.followersCount = followersCount;
@@ -30,6 +31,7 @@ public class User {
     private final static BigDecimal USER_ADDITION_CONSTANT = BigDecimal.valueOf(2L);
     private UserId id;
     private UserLogin login;
+    private String name;
     private String type;
     private String avatarUrl;
     private long followersCount;
