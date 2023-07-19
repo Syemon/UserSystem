@@ -27,7 +27,7 @@ class UserMapperTest {
         assertThat(result.getFollowersCount()).isEqualTo(9787L);
         assertThat(result.getRepositoriesCount()).isEqualTo(8L);
         assertThat(result.getCreatedAt()).isEqualTo(LocalDateTime.of(2011, 1, 25, 18, 44, 36));
-        assertThat(result.getCalculations()).isNull();
+        assertThat(result.getCalculations()).isEmpty();
     }
 
     @Test
@@ -44,7 +44,7 @@ class UserMapperTest {
                 .repositoriesCount(1)
                 .createdAt(createdAt)
                 .build();
-        user.calculate();
+        user.updateWithCalculation();
 
         //when
         UserResponse result = sut.userToUserResponse(user);
@@ -57,6 +57,6 @@ class UserMapperTest {
         assertThat(result.type()).isEqualTo("TYPE");
         assertThat(result.avatarUrl()).isEqualTo("https://avatars.githubusercontent.com/u/583231?v=4");
         assertThat(result.createdAt()).isEqualTo("2020-01-01T01:01:01");
-        assertThat(result.calculations()).isEqualTo("12");
+        assertThat(result.calculations()).isEqualTo("18.00");
     }
 }

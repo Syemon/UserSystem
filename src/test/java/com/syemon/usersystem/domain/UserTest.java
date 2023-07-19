@@ -59,8 +59,11 @@ class UserTest {
                 .createdAt(CREATED_AT)
                 .build();
 
-        //when/then
-        assertThat(user.calculate()).isEqualTo(Optional.ofNullable(expectedResult));
+        //when
+        user.updateWithCalculation();
+
+        //then
+        assertThat(user.getCalculations()).isEqualTo(Optional.ofNullable(expectedResult));
     }
 
     public static Stream<Arguments> calculateProvider() {
@@ -89,8 +92,8 @@ class UserTest {
                 .build();
 
         //when/then
-        Assertions.assertThatThrownBy(user::calculate)
-                .isInstanceOf(UserDomainException.class)
+        Assertions.assertThatThrownBy(user::updateWithCalculation)
+                .isInstanceOf(UserCorruptedDataException.class)
                 .hasMessage("Received incorrect values. Followers count and repositories count cannot be a negative number");
     }
 

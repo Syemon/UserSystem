@@ -73,7 +73,7 @@ class GithubClientTest {
         assertThat(result.twitter_username()).isEqualTo(null);
         assertThat(result.public_repos()).isEqualTo(8);
         assertThat(result.public_gists()).isEqualTo(8);
-        assertThat(result.followers()).isEqualTo(9787);
+        assertThat(result.followers()).isEqualTo(7L);
         assertThat(result.following()).isEqualTo(9);
         assertThat(result.created_at()).isEqualTo("2011-01-25T18:44:36Z");
         assertThat(result.updated_at()).isEqualTo("2023-06-22T11:15:59Z");

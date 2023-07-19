@@ -1,7 +1,6 @@
 package com.syemon.usersystem.service;
 
 import com.syemon.usersystem.domain.User;
-import com.syemon.usersystem.domain.UserDomainException;
 import com.syemon.usersystem.domain.UserLogin;
 import com.syemon.usersystem.domain.UserNotFoundException;
 import com.syemon.usersystem.domain.UserQueryRepository;
@@ -53,12 +52,12 @@ class UserApplicationServiceTest {
     @Test
     void getUser_shouldThrowException_whenLogRepositoryFailed() {
         //given
-        doThrow(new RuntimeException("Test exception"))
+        doThrow(new IllegalArgumentException("Test exception"))
                 .when(requestLogRepository).findByLogin(new UserLogin(USER_QUERY.login()));
 
         //when/then
         assertThatThrownBy(() -> sut.getUser(USER_QUERY))
-                .isInstanceOf(UserDomainException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test

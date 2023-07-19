@@ -1,7 +1,6 @@
 package com.syemon.usersystem.service;
 
 import com.syemon.usersystem.domain.User;
-import com.syemon.usersystem.domain.UserDomainException;
 import com.syemon.usersystem.domain.UserLogin;
 import com.syemon.usersystem.domain.UserNotFoundException;
 import com.syemon.usersystem.domain.UserQueryRepository;
@@ -33,7 +32,7 @@ public class UserApplicationService {
             throw new UserNotFoundException("Could not find user: " + userLogin.value());
         }
         User user = optionalUser.get();
-        user.calculate();
+        user.updateWithCalculation();
         return userMapper.userToUserResponse(user);
     }
 
@@ -43,7 +42,7 @@ public class UserApplicationService {
             incrementAndSaveRequestLog(requestLog);
         } catch (Exception e) {
             log.error("An error has occurred while saving request log", e);
-            throw new UserDomainException("An error has occurred while saving request log: " + e.getMessage());
+            throw e;
         }
     }
 

@@ -4,6 +4,7 @@ import com.syemon.usersystem.domain.User;
 import com.syemon.usersystem.domain.UserId;
 import com.syemon.usersystem.domain.UserLogin;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -32,9 +33,9 @@ class UserMapper {
                 user.getType(),
                 user.getAvatarUrl(),
                 user.getCreatedAt().toString(),
-                user.getCalculations() != null
-                        ? user.getCalculations().toString()
-                        : null
+                user.getCalculations()
+                        .map(BigDecimal::toString)
+                        .orElse(null)
         );
     }
 }

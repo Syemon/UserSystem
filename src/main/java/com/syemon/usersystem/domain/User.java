@@ -25,6 +25,7 @@ public class User {
         this.followersCount = followersCount;
         this.repositoriesCount = repositoriesCount;
         this.createdAt = createdAt;
+        this.calculations = Optional.empty();
     }
 
     private final static BigDecimal USER_DIVIDE_CONSTANT = BigDecimal.valueOf(6L);
@@ -37,19 +38,19 @@ public class User {
     private long followersCount;
     private long repositoriesCount;
     private LocalDateTime createdAt;
-    private BigDecimal calculations;
+    private Optional<BigDecimal> calculations;
 
-    public Optional<BigDecimal> calculate() {
+    public void updateWithCalculation() {
         if (followersCount == 0) {
             log.info("Calculations are not possible with followersCount = 0");
-            return Optional.empty();
+            return;
         }
         else if (followersCount < 0 || repositoriesCount < 0) {
             log.error("Received incorrect values. Followers count and repositories count cannot be a negative number");
-            throw new UserDomainException("Received incorrect values. Followers count and repositories count cannot be a negative number");
+            throw new UserCorruptedDataException("Received incorrect values. Followers count and repositories count cannot be a negative number");
         }
 
-        return Optional.of(
+        this.calculations = Optional.of(
                     USER_DIVIDE_CONSTANT
                             .divide(BigDecimal.valueOf(followersCount), CALCULATION_SCALE, RoundingMode.HALF_UP)
                             .multiply(
