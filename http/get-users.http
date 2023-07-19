@@ -1,0 +1,17 @@
+### 200
+GET {{protocol}}{{host}}/users/octocat
+Accept-Charset: utf-8
+Accept-Language: pl
+Content-Type: application/json
+
+### 400 Validation
+GET {{protocol}}{{host}}/users/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Accept-Charset: utf-8
+Accept-Language: pl
+Content-Type: application/json
+
+### 404
+GET {{protocol}}{{host}}/users/octocat11111
+Accept-Charset: utf-8
+Accept-Language: pl
+Content-Type: application/json
