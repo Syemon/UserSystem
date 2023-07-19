@@ -1,6 +1,6 @@
-package com.syemon.usersystem.service;
+package com.syemon.usersystem.dataaccess;
 
-public class ServiceTestUtil {
+public class TestUtil {
     public static final GithubUser GITHUB_USER = new GithubUser(
             "octocat",
             583231L,

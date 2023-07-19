@@ -1,4 +1,4 @@
-package com.syemon.usersystem.service;
+package com.syemon.usersystem.dataaccess;
 
 import com.syemon.usersystem.domain.User;
 import com.syemon.usersystem.domain.UserDomainException;
@@ -31,7 +31,7 @@ class GithubUserQueryRepositoryTest {
     private GithubClient githubClient;
 
     @Mock
-    private UserMapper userMapper;
+    private DataAccessUserMapper userMapper;
 
     @Test
     void getUser_shouldReturnEmptyOptional_whenUserWasNotFound() {
@@ -65,8 +65,8 @@ class GithubUserQueryRepositoryTest {
         //given
         User expectedUser = User.builder().build();
 
-        when(githubClient.getUser(USER_LOGIN)).thenReturn(Optional.of(ServiceTestUtil.GITHUB_USER));
-        when(userMapper.githubUserToUser(ServiceTestUtil.GITHUB_USER)).thenReturn(expectedUser);
+        when(githubClient.getUser(USER_LOGIN)).thenReturn(Optional.of(TestUtil.GITHUB_USER));
+        when(userMapper.githubUserToUser(TestUtil.GITHUB_USER)).thenReturn(expectedUser);
 
         //when
         Optional<User> result = sut.getUser(USER_LOGIN);

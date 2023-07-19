@@ -1,4 +1,4 @@
-package com.syemon.usersystem.service;
+package com.syemon.usersystem.dataaccess;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.syemon.usersystem.domain.UserLogin;

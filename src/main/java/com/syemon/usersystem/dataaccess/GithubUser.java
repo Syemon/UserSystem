@@ -1,4 +1,4 @@
-package com.syemon.usersystem.service;
+package com.syemon.usersystem.dataaccess;
 
 record GithubUser (
     String login,

@@ -2,7 +2,6 @@ package com.syemon.usersystem.service;
 
 import com.syemon.usersystem.domain.UserQueryRepository;
 import jakarta.validation.Validator;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -16,11 +15,6 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public GithubClient githubClient(RestTemplate restTemplate, @Value("${github.api.base-url}") String baseUrl) {
-        return new GithubClient(restTemplate, baseUrl);
-    }
-
-    @Bean
     public UserMapper userMapper() {
         return new UserMapper();
     }
@@ -31,10 +25,6 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public UserQueryRepository userQueryRepository(GithubClient githubClient, UserMapper userMapper) {
-        return new GithubUserQueryRepository(githubClient, userMapper);
-    }
-    @Bean
     public UserApplicationService userApplicationService(
             RequestValidator requestValidator,
             UserQueryRepository userQueryRepository,
@@ -44,8 +34,4 @@ public class ServiceConfiguration {
         return new UserApplicationService(requestValidator, userQueryRepository, requestLogRepository, userMapper);
     }
 
-    @Bean
-    public RequestLogRepository requestLogRepository(RequestLogJpaRepository requestLogJpaRepository) {
-        return new PostgresLogRepository(requestLogJpaRepository);
-    }
 }

@@ -1,5 +1,6 @@
-package com.syemon.usersystem.service;
+package com.syemon.usersystem.dataaccess;
 
+import com.syemon.usersystem.service.RequestLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

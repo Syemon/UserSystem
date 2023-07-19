@@ -1,12 +1,14 @@
-package com.syemon.usersystem.service;
+package com.syemon.usersystem.dataaccess;
 
 import com.syemon.usersystem.domain.UserLogin;
+import com.syemon.usersystem.service.RequestLog;
+import com.syemon.usersystem.service.RequestLogRepository;
 import lombok.AllArgsConstructor;
 
 import java.util.Optional;
 
 @AllArgsConstructor
-public class PostgresLogRepository implements RequestLogRepository {
+class PostgresLogRepository implements RequestLogRepository {
 
     private final RequestLogJpaRepository requestLogJpaRepository;
 

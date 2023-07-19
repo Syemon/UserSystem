@@ -1,4 +1,4 @@
-package com.syemon.usersystem.service;
+package com.syemon.usersystem.dataaccess;
 
 import com.syemon.usersystem.domain.UserLogin;
 import lombok.extern.slf4j.Slf4j;

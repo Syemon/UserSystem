@@ -1,4 +1,4 @@
-package com.syemon.usersystem.service;
+package com.syemon.usersystem.dataaccess;
 
 class GithubClientException extends RuntimeException {
     public GithubClientException(String message) {

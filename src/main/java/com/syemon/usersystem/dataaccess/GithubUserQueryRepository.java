@@ -1,4 +1,4 @@
-package com.syemon.usersystem.service;
+package com.syemon.usersystem.dataaccess;
 
 import com.syemon.usersystem.domain.User;
 import com.syemon.usersystem.domain.UserDomainException;
@@ -12,7 +12,7 @@ import java.util.Optional;
 class GithubUserQueryRepository implements UserQueryRepository {
 
     private final GithubClient githubClient;
-    private final UserMapper userMapper;
+    private final DataAccessUserMapper userMapper;
     @Override
     public Optional<User> getUser(UserLogin login) {
         Optional<GithubUser> githubUser = tryGetUser(login);
