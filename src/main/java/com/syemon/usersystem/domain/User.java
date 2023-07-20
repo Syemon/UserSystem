@@ -58,4 +58,11 @@ public class User {
                                     .add(BigDecimal.valueOf(repositoriesCount)))
         );
     }
+
+    public void validateInitialUser() {
+        if (calculations.isPresent()) {
+            log.error("Calculations should not be set for initial user");
+            throw new UserDomainException("User is not valid");
+        }
+    }
 }

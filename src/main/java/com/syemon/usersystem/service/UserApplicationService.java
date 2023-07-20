@@ -32,6 +32,7 @@ public class UserApplicationService {
             throw new UserNotFoundException("Could not find user: " + userLogin.value());
         }
         User user = optionalUser.get();
+        user.validateInitialUser();
         user.updateWithCalculation();
         return userMapper.userToUserResponse(user);
     }

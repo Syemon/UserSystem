@@ -1,6 +1,7 @@
 package com.syemon.usersystem.service;
 
 import com.syemon.usersystem.domain.User;
+import com.syemon.usersystem.domain.UserDomainException;
 import com.syemon.usersystem.domain.UserLogin;
 import com.syemon.usersystem.domain.UserNotFoundException;
 import com.syemon.usersystem.domain.UserQueryRepository;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
@@ -37,6 +39,10 @@ class UserApplicationServiceTest {
 
     @Mock
     private UserMapper userMapper;
+
+    @Spy
+    private User user = User.builder().build();
+
 
     @Test
     void getUser_shouldThrowException_whenNotValid() {
@@ -69,6 +75,17 @@ class UserApplicationServiceTest {
         //when/then
         assertThatThrownBy(() -> sut.getUser(USER_QUERY))
                 .isInstanceOf(UserNotFoundException.class);
+    }
+
+    @Test
+    void getUser_shouldUserDomainException_whenCreatedInvalidEntity() {
+        //given
+        when(userQueryRepository.getUser(new UserLogin(USER_QUERY.login()))).thenReturn(Optional.of(user));
+        doThrow(new UserDomainException("Test exception")).when(user).validateInitialUser();
+
+        //when/then
+        assertThatThrownBy(() -> sut.getUser(USER_QUERY))
+                .isInstanceOf(UserDomainException.class);
     }
 
     @Test
