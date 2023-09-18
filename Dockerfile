@@ -5,6 +5,6 @@ USER appuser
 
 WORKDIR /opt
 
-COPY UserSystem.jar application.jar
+COPY target/UserSystem.jar application.jar
 
 ENTRYPOINT ["java", "-jar", "application.jar"]
